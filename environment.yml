@@ -1,0 +1,10 @@
+name: weather-micro-etl
+
+dependencies:
+  - python=3.8
+  - pandas
+  - jupyterlab
+  - pandas
+  - boto3==1.13.11
+  - s3fs
+  - pip
