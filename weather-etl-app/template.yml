@@ -1,0 +1,36 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+
+Globals:
+  Function:
+    Timeout: 20
+    MemorySize: 256
+
+Resources:
+  ETLFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: application/
+      Handler: app.lambda_handler
+      Runtime: python3.8
+      Environment:
+        Variables:
+          S3Bucket: !Ref Bucket
+          Lat: "30"
+          Long: "100"
+      Policies:
+        - S3WritePolicy: 
+            BucketName: !Ref Bucket
+      Events:
+        UpdateEvent:
+          Type: Schedule
+          Properties:
+            Schedule: cron(0 8 * * ? *)
+
+  Bucket:
+    Type: AWS::S3::Bucket
+
+Outputs:
+  ETLFunction:
+    Description: "Lambda Function ARN"
+    Value: !GetAtt ETLFunction.Arn

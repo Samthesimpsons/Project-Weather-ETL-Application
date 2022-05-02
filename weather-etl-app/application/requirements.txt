@@ -1,0 +1,4 @@
+requests
+pandas
+s3fs
+boto3
