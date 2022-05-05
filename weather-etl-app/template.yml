@@ -16,6 +16,7 @@ Resources:
       Environment:
         Variables:
           S3Bucket: !Ref Bucket
+          LogLevel: INFO
           Lat: "30"
           Long: "100"
       Policies:

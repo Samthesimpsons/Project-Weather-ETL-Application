@@ -5,9 +5,9 @@ Chose the Data Engineering Question. This repository contains all the code and d
 ## Deliverables:
 
 1. `Documentation.md`:
-    - Design Documentation (Includes introduction, system architecture, and assumptions);
+    - Design Documentation (Includes introduction, system architecture, assumptions);
     - Setup Documentation on steps to set up the system;
-    - Maintenance Documentation for common problems;
+    - Maintenance for common problems;
 2. `results.csv`
     - Example of a daily weather result CSV file that is stored in an AWS S3 bucket.
 
@@ -21,10 +21,6 @@ For this walkthrough, you should have the following prerequisites:
 
 ## References:
 https://aws.amazon.com/blogs/devops/micro-etl-pipeline-how-to-fetch-process-and-refresh-small-data-using-aws-lambda-and-aws-sam/
-
-## Contributions
-
-**Author:** Samuel Sim Wei Xuan
 
 ## License
 [MIT](https://choosealicense.com/licenses/mit/)

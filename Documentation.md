@@ -7,26 +7,26 @@ A data science team is building a data application for fleet management, and the
 - Create a data pipeline;
 - Load weather data from a public weather API;
 - Calculate the maximum weekly temperature when it is raining;
-- Store the data in a data storage.
+- Store the data in data storage.
 
 ## Assumptions
 
-The assumption is that daily weather forecast is needed for analysis by the data science team. In order to use this data for fleet management, they will require forecasted data too. As such if the current day weather is rainy, they would hypothetically want to understand the weather in the following 7 days and calculate the maximum weekly temperature.
+The assumption is that a daily weather forecast is needed for analysis by the data science team. In order to use this data for fleet management, they will require forecasted data too. As such if the current day weather is rainy, they would hypothetically want to understand the weather in the following 7 days and calculate the maximum weekly temperature. 
 
 # System Architecture
 
-Since we are going to be dealing with small data feeds of (current + 7 day forecast) daily, we do not require complex and expensive computational resources. 
+Since we are going to be dealing with small data feeds of (current + 7-day forecast) daily, we do not require complex and expensive computational resources. Furthermore, instead of storing every single forecast results in a relational database on the cloud, the user is probably interested in the data feed of the current day.
 
-Therefore I am going to go with an Micro ETL data pipeline using AWS services:
+Therefore I am going to go with a Micro ETL data pipeline using AWS services and storing each data feed of the day in a CSV file format:
 
-Stack deployed using `AWS SAM CLI`:
+Stack will be deployed using `AWS SAM CLI`, initial idea was to use `Terraform`:
 - A daily (time-based) triggers an `AWS Lambda` function that 
-    * Extracts data from the `Open Weather One Call API`
-    * Transforms the heavily nested raw data from the API into a neat tidy pandas dataframe clean format
-    * Calculate the forecasted maximum average weekly temperature
-- Transformed cleaned content will be stored in an `Amazon Simple Storage S3` bucket as CSV files. 
+    * Extracts data from the `Open Weather One Call API`; (Extraction)
+    * Transforms the heavily nested raw data from the API into a neat tidy pandas data frame clean format; (Transformation)
+    * Calculate the forecasted maximum average weekly temperature and append it to the data frame;
+- Transformed cleaned content will be stored in an `Amazon Simple Storage S3` bucket as CSV files (Datalake)
 
-The user can head over to the `AWS Lambda` to change the environment variables which includes the `Lat` and `Long` coordinates.
+The user can head over to the `AWS Lambda` to change the environment variables which include the `Lat` and `Long` coordinates. For extraction, the user is also able to use `S3 Console` to query the results out. For more complex cases, to scale up this system, we can integrate `AWS Athena` and also use a crawler. (Load)
 
 # Maintenance Documentation
 
@@ -40,7 +40,7 @@ First, change the working directory into  `Carro_Assigment` after cloning from t
 
 First, we shall use a conda environment to run everything which will handle all the dependencies and install python for us.
 
-1. Open up the `Anaconda Prompt` shell, then first let us create our conda environment:
+1. Open up the `Anaconda Prompt` shell, then first let us create a conda environment to handle any dependencies issues:
 
     ```console
     conda env create -f environment.yml
@@ -62,11 +62,11 @@ There are **three** components
     - Contains the configuration to build and the schedule to deploy the Lambda function daily;
 2. `application/app.py` 
     - Contains the code of our application;
-    - AWS Lambda handler function contains the API query, transformation step, maximum temperature calculation, and saves the results to a CSV file into our S3 Bucket.
+    - AWS Lambda handler function contains the API query, transformation step, and maximum temperature calculation, and saves the results to a CSV file into our S3 Bucket.
 3. `application/requirements.txt`
-    - Contains a list of Python libraries needed for our function to run
+    - Contains a list of Python libraries needed for our function to run.
 
-## Deployment of ETL
+## Deployment of ETL Pipeline and Datalake
 
 Now to build and deploy the application using the AWS SAM CLI:
 
@@ -89,3 +89,9 @@ At the very end, to delete the stack, we can delete the stack on the AWS CloudFo
     ```console
     SELECT * FROM s3object s 
     ```
+
+## Maintenance for Problem
+
+A possible bottleneck in this micro-ETL pipeline is the avaliability of the data from the Weather API. Hence to settle this, the code includes a simple error handling.
+
+In addition, logging of the information such as the filepath and the size of the results of each day is done via a logging file.
