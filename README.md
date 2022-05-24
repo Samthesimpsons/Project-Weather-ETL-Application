@@ -1,6 +1,6 @@
-# Carro Assignment
+# Assignment
 
-Chose the Data Engineering Question. This repository contains all the code and documentation. 
+Chose the Data Engineering Question for my job application - ML Engineer. This repository contains all the code and documentation. 
 
 ## Deliverables:
 
