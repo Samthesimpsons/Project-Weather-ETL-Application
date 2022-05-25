@@ -26,7 +26,7 @@ def lambda_handler(event, context):
         LONG = str(LOCATION_LONG)
 
         # "Daily" parameter results in nested json results of the current + 7 days forecasted weather
-        fetched = requests.get("https://api.openweathermap.org/data/2.5/onecall?lat="+LAT+"&lon="+LONG+"&exclude=current,minutely,alerts,hourly&appid=4e85512db10f65ee2dc95e2c616694ac")
+        fetched = requests.get("https://api.openweathermap.org/data/2.5/onecall?lat="+LAT+"&lon="+LONG+"&exclude=current,minutely,alerts,hourly&appid=_______")
         json_obj = fetched.json()
 
         # Get the current datetime of the API Query
