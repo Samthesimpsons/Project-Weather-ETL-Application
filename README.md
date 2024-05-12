@@ -1,6 +1,6 @@
 # Assignment
 
-Chose the Data Engineering Question for my job application - ML Engineer. This repository contains all the code and documentation. My attempt landed me a AI Engineer role which I did not accept.
+Chose the Data Engineering Question for my job application - ML Engineer. This repository contains all the code and documentation. My attempt landed me a ML Engineer role which I did not accept.
 
 ## Deliverables:
 
